@@ -29,8 +29,8 @@ public class JwtProvider {
         this.redisService = redisService;
     }
 
-    public String getStudentIdFromAccessToken(String token) {
-        return JWT.decode(token).getClaim("studentId").asString();
+    public String getEmailFromAccessToken(String token) {
+        return JWT.decode(token).getClaim("email").asString();
     }
 
     public boolean validate(String token) {

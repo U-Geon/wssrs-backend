@@ -40,11 +40,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화 -> cookie를 사용하지 않으면 꺼도 된다. (cookie를 사용할 경우 httpOnly(XSS 방어), sameSite(CSRF 방어)로 방어해야 한다.)
                 .formLogin(AbstractHttpConfigurer::disable) // security 기본 로그인 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable) // REST API이므로 basic auth 사용 x
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // cors 설정
                 // 특정 URL에 대한 권한 설정.
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/swagger", "/swagger-ui/index.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/", "/api/auth/login", "/api/auth/sign-up").permitAll() // 특정 url에 대한 인가 요청 허용
+                        .requestMatchers("/", "/api/auth/*", "/api/auth/pw/*").permitAll() // 특정 url에 대한 인가 요청 허용
                         .requestMatchers("/api/user/*").hasRole("USER") // USER 권한일 때 요청 가능.
                         .requestMatchers("/api/admin/*").hasRole("ADMIN") // ADMIN 권한일 때 요청.
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요.

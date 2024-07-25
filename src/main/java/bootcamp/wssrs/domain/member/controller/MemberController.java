@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,16 +25,16 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    @Operation(summary = "로그인", description = "학번, 비밀번호 입력")
-    public ResponseEntity<TokenDTO> login(@Parameter(required = true, description = "학번, 비밀번호")
+    @Operation(summary = "로그인", description = "이메일, 비밀번호 입력")
+    public ResponseEntity<TokenDTO> login(@Parameter(required = true, description = "이메일, 비밀번호")
             @RequestBody @Valid LoginRequestDTO requestDTO) {
         return ResponseEntity.ok(memberService.login(requestDTO));
     }
 
     // 회원가입
     @PostMapping("/sign-up")
-    @Operation(summary = "회원 가입", description = "학번, 이름, 비밀번호 입력")
-    public ResponseEntity<Member> signup(@Parameter(required = true, description = "학번, 이름, 비밀번호")
+    @Operation(summary = "회원 가입", description = "이메일, 학번, 이름, 비밀번호 입력해서 회원가입")
+    public ResponseEntity<Member> signup(@Parameter(required = true, description = "이메일, 학번, 이름, 비밀번호")
                                              @RequestBody @Valid SignupRequestDTO requestDTO) {
         return ResponseEntity.ok(memberService.signUp(requestDTO));
     }
@@ -48,7 +49,7 @@ public class MemberController {
 
     // 비밀번호 재설정
     @PostMapping("/pw/update")
-    @Operation(summary = "비밀번호 재설정")
+    @Operation(summary = "비밀번호 재설정", description = "header : access token 필요")
     public ResponseEntity<PasswordUpdateResponseDTO> updatePassword(
             @Parameter(required = true, description = "새 비밀번호 입력")
             @RequestBody @Valid PasswordUpdateRequestDTO requestDTO,
@@ -58,7 +59,7 @@ public class MemberController {
 
     // access token 재발급
     @PostMapping("/refresh")
-    @Operation(summary = "Access Token 재발급", description = "Refresh Token을 Body에 담아 전송")
+    @Operation(summary = "Access Token 재발급", description = "header: access token 필요 + body: refresh token")
     public ResponseEntity<ReissueAccessTokenResponseDTO> reissueAccessToken(
             @Parameter(required = true, description = "Refresh Token")
             @RequestBody @Valid ReissueAccessTokenRequestDTO requestDTO,
@@ -68,9 +69,8 @@ public class MemberController {
 
     // logout
     @GetMapping("/logout")
-    @Operation(summary = "로그아웃")
-    public void logout(@AuthenticationPrincipal Member member,
-                       @RequestBody @Valid TokenDTO tokenDTO) {
-        memberService.logout(member.getStudentId(), tokenDTO);
+    @Operation(summary = "로그아웃", description = "액세스 토큰 + 리프레시 토큰 제거")
+    public void logout(@RequestBody @Valid TokenDTO tokenDTO) {
+        memberService.logout(tokenDTO);
     }
 }

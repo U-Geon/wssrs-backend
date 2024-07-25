@@ -15,8 +15,8 @@ public class LoadUserService implements UserDetailsService {
 
     // jwt filter
     @Override
-    public Member loadUserByUsername(String studentId) throws UsernameNotFoundException {
-        return memberRepository.findByEmail(studentId)
+    public Member loadUserByUsername(String email) throws UsernameNotFoundException {
+        return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("가입되어 있지 않은 유저입니다."));
     }
 }

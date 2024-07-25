@@ -36,15 +36,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("Authentication filter 작동.");
         log.info("accessToken: {}", accessToken);
 
-        if(accessToken == null) {
-            filterChain.doFilter(request, response);
-            return ;
-        }
-
         try {
             if(jwtProvider.validate(accessToken)) {
-                String studentId = jwtProvider.getStudentIdFromAccessToken(accessToken);
-                Authentication authentication = getAuthentication(studentId);
+                String email = jwtProvider.getEmailFromAccessToken(accessToken);
+                Authentication authentication = getAuthentication(email);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (TokenExpiredException e) {
@@ -69,8 +64,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     // 인증 정보 가져오기
-    private Authentication getAuthentication(String studentId) {
-        Member userDetails = loadUserService.loadUserByUsername(studentId);
+    private Authentication getAuthentication(String email) {
+        Member userDetails = loadUserService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }

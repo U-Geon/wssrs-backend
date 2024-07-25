@@ -18,6 +18,7 @@ import bootcamp.wssrs.global.redis.RedisService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -48,7 +50,7 @@ public class MemberService {
         String refreshToken = jwtProvider.createRefreshToken();
 
         // refresh token 저장.
-        if(redisService.getRefreshToken(email).equals(refreshToken)) {
+        if(redisService.getRefreshToken(email) != null) {
             redisService.deleteRefreshToken(email);
         }
         redisService.saveRefreshToken(email, refreshToken);
@@ -84,7 +86,6 @@ public class MemberService {
     @Transactional
     public PasswordUpdateResponseDTO updatePassword(String email, PasswordUpdateRequestDTO requestDTO) {
         memberRepository.findByEmail(email)
-                .filter(member -> passwordEncoder.matches(requestDTO.getNewPassword(), member.getPassword()))	// 암호화된 비밀번호와 일치 여부 확인
                 .map(member -> {
                     member.setPassword(requestDTO.getNewPassword(), passwordEncoder);	// 새 비밀번호를 암호화하도록 수정
                     return new PasswordUpdateResponseDTO(requestDTO.getNewPassword());
@@ -109,14 +110,13 @@ public class MemberService {
 
     // 로그아웃
     @Transactional
-    public void logout(String studentId, TokenDTO tokenDTO) {
+    public void logout(TokenDTO tokenDTO) {
 
         String accessToken = tokenDTO.getAccessToken();
+        String studentId = jwtProvider.getEmailFromAccessToken(accessToken);
 
         // redis에서 refresh Token 제거
-        if (redisService.getRefreshToken(studentId) != null) {
-            redisService.deleteRefreshToken(studentId);
-        }
+        redisService.deleteRefreshToken(studentId);
 
         // 해당 엑세스 토큰의 남은 유효시간을 얻어서 Access Token blacklist에 등록하여 만료시키기
         Long tokenExpiration = jwtProvider.getTokenExpiration(accessToken);
