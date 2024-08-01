@@ -45,7 +45,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/swagger", "/swagger-ui/index.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/", "/api/auth/*", "/api/auth/pw/*").permitAll() // 특정 url에 대한 인가 요청 허용
-                        .requestMatchers("/api/user/*").hasRole("USER") // USER 권한일 때 요청 가능.
                         .requestMatchers("/api/admin/*").hasRole("ADMIN") // ADMIN 권한일 때 요청.
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요.
                 )

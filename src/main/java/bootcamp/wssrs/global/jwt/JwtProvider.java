@@ -36,7 +36,7 @@ public class JwtProvider {
     public boolean validate(String token) {
         try {
             JWT.require(algorithm).build().verify(token);
-            if (redisService.hasKeyBlackList(token)) {
+            if (redisService.hasKeyBlackList(token)) { // JWT BlackList
                 return false;
             }
             return true;

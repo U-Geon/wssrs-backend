@@ -1,7 +1,7 @@
 package bootcamp.wssrs.global.jwt;
 
-import bootcamp.wssrs.domain.member.entity.Member;
-import bootcamp.wssrs.domain.member.service.LoadUserService;
+import bootcamp.wssrs.domain.Member.entity.Member;
+import bootcamp.wssrs.domain.Member.service.LoadUserService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import jakarta.servlet.FilterChain;
@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String email = jwtProvider.getEmailFromAccessToken(accessToken);
                 Authentication authentication = getAuthentication(email);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            } else throw new JWTVerificationException("Invalid JWT token");
         } catch (TokenExpiredException e) {
             log.error("Access token expired.");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

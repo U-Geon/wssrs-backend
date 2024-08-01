@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
 
     private final RedisTemplate<String, String> redisTemplate;
-    private final RedisTemplate<String, Object> redisBlackListTemplate;
+    private final RedisTemplate<String, String> redisBlackListTemplate;
 
     @Value("${jwt.refresh-token.expiration}")
     private Long refreshTokenExpiration;
@@ -29,8 +29,8 @@ public class RedisService {
         redisTemplate.delete(key);
     }
 
-    public void setBlackList(String key, Object o, Long milliSeconds) {
-        redisBlackListTemplate.opsForValue().set(key, o, milliSeconds, TimeUnit.MILLISECONDS);
+    public void setBlackList(String key, String o, Long milliSeconds) {
+        redisBlackListTemplate.opsForValue().set(key, o, milliSeconds, TimeUnit.HOURS);
     }
 
     public Object getBlackList(String key) {
