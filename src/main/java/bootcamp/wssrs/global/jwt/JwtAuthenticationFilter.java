@@ -33,15 +33,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String accessToken = resolveToken(request);
-        log.info("Authentication filter 작동.");
-        log.info("accessToken: {}", accessToken);
 
         try {
             if(jwtProvider.validate(accessToken)) {
                 String email = jwtProvider.getEmailFromAccessToken(accessToken);
                 Authentication authentication = getAuthentication(email);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else throw new JWTVerificationException("Invalid JWT token");
+            }
         } catch (TokenExpiredException e) {
             log.error("Access token expired.");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
