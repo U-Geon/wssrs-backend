@@ -56,7 +56,7 @@ jobs:
         host: ${{ secrets.EC2_HOST }} # ec2 ip
         username: ${{ secrets.EC2_USER }} # ec2에서 whoami 명령어로 확인
         script: |
-          sudo docker rm -f $(sudo docker ps -qa)
-          sudo docker pull ryu7844/wssrs
+          sudo docker rm -f $(sudo docker ps -qa) || true
+          sudo docker pull ${{ secrets.DOCKER_REPOSITORY }} / ${{ secrets.DOCKER_IMAGE }}
           sudo docker system prune -f
-          sudo docker run -d --rm -p 8080:8080 ryu7844/wssrs
+          sudo docker run -d --rm -p 8080:8080 ${{ secrets.DOCKER_REPOSITORY }} / ${{ secrets.DOCKER_IMAGE }}
