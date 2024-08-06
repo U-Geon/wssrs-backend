@@ -19,6 +19,7 @@ public class Recruit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recruit_id")
     private Long id;
 
     @Column(nullable = false)

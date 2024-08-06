@@ -10,6 +10,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class RecruitsResponseDTO {
+    private Long recruitId;
     private String username;
     private String studentId;
     private String phoneNum;
@@ -20,6 +21,7 @@ public class RecruitsResponseDTO {
 
     public RecruitsResponseDTO(Recruit recruit) {
         Member member = recruit.getMember();
+        this.recruitId = recruit.getId();
         this.username = member.getUsername();
         this.studentId = member.getStudentId();
         this.phoneNum = recruit.getPhoneNum();
