@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
 
-// Custom Error 내용을 담을 Response Entity
 @Data
 @Builder
 public class ErrorResponseEntity {
@@ -17,7 +16,7 @@ public class ErrorResponseEntity {
                 .status(e.getHttpStatus())
                 .body(ErrorResponseEntity.builder()
                         .status(e.getHttpStatus().value())
-                        .code(e.name())
+                        .code(e.getCode())
                         .message(e.getMessage())
                         .build()
                 );

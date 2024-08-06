@@ -13,7 +13,6 @@ public class LoadUserService implements UserDetailsService {
 
     private final AuthRepository authRepository;
 
-    // jwt filter
     @Override
     public Member loadUserByUsername(String email) throws UsernameNotFoundException {
         return authRepository.findByEmail(email)

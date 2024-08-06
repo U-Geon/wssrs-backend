@@ -1,15 +1,12 @@
 package bootcamp.wssrs.domain.Notice.service;
 
 
-import bootcamp.wssrs.domain.Notice.dto.request.UserRecruitRequestDTO;
 import bootcamp.wssrs.domain.Notice.dto.response.UserFindAllNoticeResponseDTO;
 import bootcamp.wssrs.domain.Notice.entity.Notice;
 import bootcamp.wssrs.domain.Notice.repository.NoticeRepository;
-import bootcamp.wssrs.domain.Member.entity.Member;
 import bootcamp.wssrs.domain.Recruit.service.RecruitService;
 import bootcamp.wssrs.global.exception.CustomException;
 import bootcamp.wssrs.global.exception.ErrorCode;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

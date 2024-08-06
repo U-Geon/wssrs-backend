@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 
-// 에러 코드
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
@@ -15,12 +14,9 @@ public enum ErrorCode {
     DUPLICATED_MEMBER(HttpStatus.BAD_REQUEST, "AUTH-003", "이미 가입된 계정입니다."),
     INVALID_ARGUMENT(HttpStatus.BAD_REQUEST, "AUTH-004", "누락된 정보가 있는지 확인해주세요."),
 
-    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE-001", "게시글을 찾을 수 없습니다."),
+    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE-001", "게시글을 찾을 수 없습니다.");
 
-    ;
-    // ...
-
-    private final HttpStatus httpStatus;	// HttpStatus
-    private final String code;				// ACCOUNT-001
-    private final String message;			// 설명
-    }
+    private final HttpStatus httpStatus;
+    private final String code;
+    private final String message;
+}

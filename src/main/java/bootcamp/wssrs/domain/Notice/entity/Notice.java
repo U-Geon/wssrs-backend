@@ -3,7 +3,6 @@ package bootcamp.wssrs.domain.Notice.entity;
 
 import bootcamp.wssrs.domain.File.entity.File;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
