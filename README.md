@@ -14,7 +14,7 @@ Wssrs [Work Scholarship Student Recruitment Service]
     - AWS RDS
     - Docker
 - CI / CD : GitHub Actions
-- Collaboration : Notion
+- Collaboration : Notion, Swagger-ui
 
 ## 🗓️ 개발 기간
 2024.07 ~ 2024.08
