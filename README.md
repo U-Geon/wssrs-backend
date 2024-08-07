@@ -19,6 +19,12 @@ Wssrs [Work Scholarship Student Recruitment Service]
 ## 🗓️ 개발 기간
 2024.07 ~ 2024.08
 
+## 👨🏻‍💻 팀원
+
+- [20223098 신진욱 (FrontEnd)](https://github.com/jen454)
+- [20203103 류건 (BackEnd)](https://github.com/U-Geon)
+
+
 ## 📍 사용 라이브러리
 - ```org.springframework.boot:spring-boot-starter-data-jpa```
 - ```org.springframework.boot:spring-boot-starter-security```
@@ -64,3 +70,42 @@ Spring Security + JWT 활용하여 구현.
 - 상세 공고 확인
 - 해당 공고 근로 지원
 
+## 프로젝트 설치 및 실행 방법
+
+1. 리포지토리를 클론합니다.
+
+```
+git clone https://github.com/U-Geon/wssrs-backend.git
+```
+
+2. main/resource/application-private.yml을 생성해줍니다.
+```
+redis:
+  host: {ip}
+  port: 6379
+  password: {password}
+
+db:
+  url: {url}
+  username: {username}
+  password: {password}
+
+jwt:
+  secret-key: {secret-key}
+  access-token:
+    expiration: 12
+  refresh-token:
+    expiration: 24
+
+s3:
+  bucket: {bucket-name}
+  accessKey: {access-key}
+  secretKey: {secret-key}
+  region: ap-northeast-2
+
+admin:
+  email: admin
+  password: admin12!@
+```
+
+3. 프로젝트를 실행합니다.
