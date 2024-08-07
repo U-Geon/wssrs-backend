@@ -5,6 +5,7 @@ import bootcamp.wssrs.domain.File.service.FileService;
 import bootcamp.wssrs.domain.Notice.dto.response.AdminFindAllNoticeDTO;
 import bootcamp.wssrs.domain.Notice.entity.Notice;
 import bootcamp.wssrs.domain.Notice.repository.NoticeRepository;
+import bootcamp.wssrs.domain.Recruit.service.RecruitService;
 import bootcamp.wssrs.global.exception.CustomException;
 import bootcamp.wssrs.global.exception.ErrorCode;
 import bootcamp.wssrs.global.s3.S3FileService;
@@ -25,6 +26,7 @@ public class AdminNoticeService {
     private final NoticeRepository noticeRepository;
     private final FileService fileService;
     private final S3FileService s3FileService;
+    private final RecruitService recruitService;
 
     // 공고 생성
     @Transactional
@@ -54,7 +56,7 @@ public class AdminNoticeService {
         for (File file : files) {
             s3FileService.deleteFile("notice", file.getName());
         }
-//        recruitService.delete(noticeId); // notice를 지워질 때 지원 기록이 같이 지워지는지 확인
+        recruitService.delete(noticeId); // notice를 지워질 때 지원 기록이 같이 지워지는지 확인
         noticeRepository.delete(notice);
     }
 }

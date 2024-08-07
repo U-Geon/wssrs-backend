@@ -57,4 +57,10 @@ public class RecruitService {
                 .forEach(recruit -> recruit.setIsConfirmed(true));
     }
 
+    // 지원 삭제
+    @Transactional
+    public void delete(Long noticeId) {
+        recruitRepository.deleteAll(recruitRepository.findByNoticeId(noticeId));
+    }
+
 }
