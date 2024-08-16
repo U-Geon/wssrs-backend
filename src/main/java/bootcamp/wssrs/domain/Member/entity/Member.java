@@ -5,10 +5,7 @@ import bootcamp.wssrs.domain.Member.dto.request.SignupRequestDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +15,10 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-@Getter @Setter
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Member implements UserDetails {
 
     @Id
@@ -78,22 +77,22 @@ public class Member implements UserDetails {
     }
 
     public static Member createUser(@NotNull SignupRequestDTO request, PasswordEncoder encoder) {
-        Member member = new Member();
-        member.setStudentId(request.getStudentId());
-        member.setPassword(encoder.encode(request.getPassword()));
-        member.setUsername(request.getUsername());
-        member.setEmail(request.getEmail());
-        member.setRole(Role.USER);
-        return member;
+        return Member.builder()
+                .studentId(request.getStudentId())
+                .password(encoder.encode(request.getPassword()))
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .role(Role.USER)
+                .build();
     }
 
     public static Member createAdmin(String email, String password, PasswordEncoder encoder) {
-        Member member = new Member();
-        member.setStudentId("admin");
-        member.setPassword(encoder.encode(password));
-        member.setUsername("생활협동조합");
-        member.setEmail(email);
-        member.setRole(Role.ADMIN);
-        return member;
+        return Member.builder()
+                .studentId("admin")
+                .password(encoder.encode(password))
+                .username("생활협동조합")
+                .email(email)
+                .role(Role.ADMIN)
+                .build();
     }
 }

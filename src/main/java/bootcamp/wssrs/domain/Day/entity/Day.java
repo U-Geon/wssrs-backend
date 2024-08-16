@@ -2,14 +2,13 @@ package bootcamp.wssrs.domain.Day.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter @Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Day {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +31,14 @@ public class Day {
     private Boolean sunday;
 
     public static Day create() {
-        Day day = new Day();
-        day.setMonday(false);
-        day.setTuesday(false);
-        day.setWednesday(false);
-        day.setThursday(false);
-        day.setFriday(false);
-        day.setSaturday(false);
-        day.setSunday(false);
-        return day;
+        return Day.builder()
+                .monday(false)
+                .tuesday(false)
+                .wednesday(false)
+                .thursday(false)
+                .friday(false)
+                .saturday(false)
+                .sunday(false)
+                .build();
     }
 }

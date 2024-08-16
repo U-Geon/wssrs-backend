@@ -13,8 +13,10 @@ import java.util.List;
 
 
 @Entity
-@Getter @Setter
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Notice {
 
@@ -37,10 +39,9 @@ public class Notice {
     private List<File> files = new ArrayList<>();
 
     public static Notice create(String title, String content) {
-        Notice notice = new Notice();
-        notice.title = title;
-        notice.content = content;
-
-        return notice;
+        return Notice.builder()
+                .title(title)
+                .content(content)
+                .build();
     }
 }
