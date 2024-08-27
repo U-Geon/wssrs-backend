@@ -54,7 +54,7 @@ public class RecruitService {
     @Transactional
     public void confirm(AdminConfirmRequestDTO requestDTO) {
         recruitRepository.findAllById(requestDTO.getRecruitIds())
-                .forEach(recruit -> recruit.setIsConfirmed(true));
+                .forEach(recruit -> recruit.setIsConfirmed(!recruit.getIsConfirmed()));
     }
 
     // 지원 삭제
