@@ -11,7 +11,7 @@ public class LoginRequestDTO {
     @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[~!@#$%^&*()_+`\\-={}|:\";'<>?,./]).{8,}$")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[~!@#$%^&*()_+`\\-={}|:\";'<>?,./]).{8,}$", message = "영문자, 숫자, 특수문자를 각각 최소 1개 이상 사용해주세요.")
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 }
