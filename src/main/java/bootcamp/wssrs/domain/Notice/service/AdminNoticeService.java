@@ -10,6 +10,7 @@ import bootcamp.wssrs.global.exception.CustomException;
 import bootcamp.wssrs.global.exception.ErrorCode;
 import bootcamp.wssrs.global.s3.S3FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,12 @@ public class AdminNoticeService {
     }
 
     // 공고 조회
-    public List<AdminFindAllNoticeDTO> findAllAtAdmin(Integer pageNum) {
+    public AdminFindAllNoticeDTO findAllAtAdmin(Integer pageNum) {
         Pageable pageable = PageRequest.of(pageNum, 8);
-        return noticeRepository.findAllByOrderByCreatedAtDesc(pageable)
-                .stream().map(AdminFindAllNoticeDTO::new).toList();
+        Page<Notice> page = noticeRepository.findAllByOrderByCreatedAtDesc(pageable);
+        Long totalCount = noticeRepository.countTotalNotices();
+
+        return new AdminFindAllNoticeDTO(totalCount, page);
     }
 
     // 공고 삭제
