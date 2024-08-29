@@ -2,6 +2,7 @@ package bootcamp.wssrs.domain.Notice.dto.request;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -18,9 +19,9 @@ public class UserRecruitRequestDTO {
     @NotBlank(message = "전화번호를 입력해주세요.")
     private String phoneNum;
 
-    @NotBlank(message = "근무 날짜를 한 개 이상 선택해주세요.")
+    @NotEmpty(message = "근무 날짜를 한 개 이상 선택해주세요.") // @NotBlank는 문자열(String) 타입에만 적용 가능, 컬렉션 객체에 사용.
     private List<String> day;
 
-    @NotBlank(message = "조합원 가입 유무에 체크해주세요.")
-    private Boolean isUnion;
+    @NotNull(message = "조합원 가입 유무에 체크해주세요.")
+    private Boolean isUnion; // @NotBlank는 문자열(String) 타입에만 적용 가능
 }
