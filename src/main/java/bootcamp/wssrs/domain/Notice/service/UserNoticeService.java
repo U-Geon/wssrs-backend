@@ -19,7 +19,6 @@ import java.util.List;
 public class UserNoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final RecruitService recruitService;
 
     // 공고 목록
     public List<UserFindAllNoticeResponseDTO> findAll() {

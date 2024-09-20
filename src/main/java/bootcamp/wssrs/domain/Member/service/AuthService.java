@@ -37,9 +37,9 @@ public class AuthService {
 
     // 로그인
     public LoginResponseDTO login(LoginRequestDTO requestDTO) {
-        String email = requestDTO.getEmail();
+        String email = requestDTO.email();
         Member member = authRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        if(!passwordEncoder.matches(requestDTO.getPassword(), member.getPassword())) {
+        if(!passwordEncoder.matches(requestDTO.password(), member.getPassword())) {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
@@ -73,10 +73,10 @@ public class AuthService {
 
     // 회원 조회
     public TokenDTO findMember(FindMemberRequestDTO requestDTO) {
-        Member member = authRepository.findByEmailAndStudentId(requestDTO.getEmail(), requestDTO.getStudentId())
+        Member member = authRepository.findByEmailAndStudentId(requestDTO.email(), requestDTO.studentId())
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        String accessToken = jwtProvider.createAccessToken(requestDTO.getEmail(), member.getRole().toString());
+        String accessToken = jwtProvider.createAccessToken(requestDTO.email(), member.getRole().toString());
 
         return new TokenDTO(accessToken);
     }
@@ -86,8 +86,8 @@ public class AuthService {
     public PasswordUpdateResponseDTO updatePassword(String email, PasswordUpdateRequestDTO requestDTO) {
         return authRepository.findByEmail(email)
                 .map(member -> {
-                    member.setPassword(requestDTO.getNewPassword(), passwordEncoder);	// 새 비밀번호를 암호화하도록 수정
-                    return new PasswordUpdateResponseDTO(requestDTO.getNewPassword());
+                    member.setPassword(requestDTO.newPassword(), passwordEncoder);	// 새 비밀번호를 암호화하도록 수정
+                    return new PasswordUpdateResponseDTO(requestDTO.newPassword());
                 }).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
