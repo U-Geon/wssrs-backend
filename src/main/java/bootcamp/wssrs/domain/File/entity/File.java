@@ -3,14 +3,13 @@ package bootcamp.wssrs.domain.File.entity;
 import bootcamp.wssrs.domain.Notice.entity.Notice;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Getter @Setter
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +33,10 @@ public class File {
     }
 
     public static File create(String url, String filename, Notice notice) {
-        File file = new File();
-        file.setUrl(url);
-        file.setName(filename);
+        File file = File.builder()
+                .url(url)
+                .name(filename)
+                .build();
         file.setNotice(notice);
         return file;
     }

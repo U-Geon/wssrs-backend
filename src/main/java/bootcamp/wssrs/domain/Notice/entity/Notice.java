@@ -13,8 +13,10 @@ import java.util.List;
 
 
 @Entity
-@Getter @Setter
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Notice {
 
@@ -23,10 +25,10 @@ public class Notice {
     @Column(name = "notice_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @CreatedDate
@@ -34,13 +36,13 @@ public class Notice {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "notice", cascade = CascadeType.REMOVE)
-    private List<File> files = new ArrayList<>();
+    private List<File> files;
 
     public static Notice create(String title, String content) {
-        Notice notice = new Notice();
-        notice.title = title;
-        notice.content = content;
-
-        return notice;
+        return Notice.builder()
+                .title(title)
+                .content(content)
+                .files(new ArrayList<>())
+                .build();
     }
 }

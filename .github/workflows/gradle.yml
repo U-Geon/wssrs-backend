@@ -49,14 +49,19 @@ jobs:
         docker build -t ${{ secrets.DOCKER_USER }}/wssrs . 
         docker push ${{ secrets.DOCKER_USER }}/wssrs
 
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
-      with:
-        key: ${{ secrets.EC2_PRIVATE_KEY }} # pem key
-        host: ${{ secrets.EC2_HOST }} # ec2 ip
-        username: ${{ secrets.EC2_USER }} # ec2에서 whoami 명령어로 확인
-        script: |
-          sudo docker rm -f $(sudo docker ps -qa) || true
-          sudo docker pull ${{ secrets.DOCKER_REPOSITORY }} / ${{ secrets.DOCKER_IMAGE }}
-          sudo docker system prune -f
-          sudo docker run -d --rm -p 8080:8080 ${{ secrets.DOCKER_REPOSITORY }} / ${{ secrets.DOCKER_IMAGE }}
+  run-docker-image-on-ec2:
+    needs: application-build
+    runs-on: self-hosted
+
+    steps:
+      - name: docker pull
+        run: sudo docker pull ${{ secrets.DOCKER_USER }}/wssrs:latest
+
+      - name: docker stop container
+        run: sudo docker stop clerker:latest || true
+
+      - name: docker run new container
+        run: sudo docker run --name github-actions-demo --rm -d -p 8080:8080 ${{ secrets.DOCKER_USER }}/wssrs:latest
+
+      - name: delete old docker image
+        run: sudo docker image prune -f

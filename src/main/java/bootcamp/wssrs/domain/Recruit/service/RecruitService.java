@@ -38,7 +38,7 @@ public class RecruitService {
         recruit.setMember(member);
         recruit.setNotice(notice);
 
-        Day day = dayService.create(requestDTO.getDay());
+        Day day = dayService.create(requestDTO.day());
         recruit.setDay(day);
 
         recruitRepository.save(recruit);
@@ -53,8 +53,8 @@ public class RecruitService {
     // 근무 확정
     @Transactional
     public void confirm(AdminConfirmRequestDTO requestDTO) {
-        recruitRepository.findAllById(requestDTO.getRecruitIds())
-                .forEach(recruit -> recruit.setIsConfirmed(true));
+        recruitRepository.findAllById(requestDTO.recruitIds())
+                .forEach(recruit -> recruit.setIsConfirmed(!recruit.getIsConfirmed()));
     }
 
     // 지원 삭제

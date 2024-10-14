@@ -1,9 +1,8 @@
 package bootcamp.wssrs.domain.Member.dto.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
 
-@Getter @Setter
-public class ReissueAccessTokenRequestDTO {
-    private String refreshToken;
-}
+public record ReissueAccessTokenRequestDTO(
+        @NotBlank(message = "토큰이 존재하지 않습니다.")
+        String refreshToken
+) {}

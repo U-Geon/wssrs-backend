@@ -6,15 +6,14 @@ import bootcamp.wssrs.domain.Notice.dto.request.UserRecruitRequestDTO;
 import bootcamp.wssrs.domain.Notice.entity.Notice;
 import bootcamp.wssrs.domain.Member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @Entity
 @Getter @Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Recruit {
 
     @Id
@@ -47,12 +46,11 @@ public class Recruit {
     private Day day;
 
     public static Recruit create(UserRecruitRequestDTO requestDTO) {
-        Recruit recruit = new Recruit();
-        recruit.setCode(requestDTO.getCode());
-        recruit.setPhoneNum(requestDTO.getPhoneNum());
-        recruit.setIsUnion(requestDTO.getIsUnion());
-        recruit.setIsConfirmed(false);
-
-        return recruit;
+        return Recruit.builder()
+                .code(requestDTO.code())
+                .phoneNum(requestDTO.phoneNum())
+                .isUnion(requestDTO.isUnion())
+                .isConfirmed(false)
+                .build();
     }
 }

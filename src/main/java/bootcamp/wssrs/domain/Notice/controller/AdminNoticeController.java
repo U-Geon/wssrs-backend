@@ -28,7 +28,7 @@ public class AdminNoticeController {
 
     @GetMapping("/notice") // 07.30 수정 테스트 필요.
     @Operation(summary = "공고 목록", description = "토큰 필요")
-    public ResponseEntity<List<AdminFindAllNoticeDTO>> findAll(
+    public ResponseEntity<AdminFindAllNoticeDTO> findAll(
             @Parameter(required = true, description = "페이지 번호")
             @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
             @AuthenticationPrincipal Member member) {
