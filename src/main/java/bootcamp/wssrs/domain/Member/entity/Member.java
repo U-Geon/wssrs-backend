@@ -78,10 +78,10 @@ public class Member implements UserDetails {
 
     public static Member createUser(@NotNull SignupRequestDTO request, PasswordEncoder encoder) {
         return Member.builder()
-                .studentId(request.getStudentId())
-                .password(encoder.encode(request.getPassword()))
-                .username(request.getUsername())
-                .email(request.getEmail())
+                .studentId(request.studentId())
+                .password(encoder.encode(request.password()))
+                .username(request.username())
+                .email(request.email())
                 .role(Role.USER)
                 .build();
     }

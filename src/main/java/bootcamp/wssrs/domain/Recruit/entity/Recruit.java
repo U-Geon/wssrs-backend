@@ -47,9 +47,9 @@ public class Recruit {
 
     public static Recruit create(UserRecruitRequestDTO requestDTO) {
         return Recruit.builder()
-                .code(requestDTO.getCode())
-                .phoneNum(requestDTO.getPhoneNum())
-                .isUnion(requestDTO.getIsUnion())
+                .code(requestDTO.code())
+                .phoneNum(requestDTO.phoneNum())
+                .isUnion(requestDTO.isUnion())
                 .isConfirmed(false)
                 .build();
     }

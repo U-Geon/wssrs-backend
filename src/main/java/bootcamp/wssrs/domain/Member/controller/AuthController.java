@@ -84,7 +84,7 @@ public class AuthController {
     public ResponseEntity<ReissueAccessTokenResponseDTO> reissueAccessToken(
             @RequestBody @Valid ReissueAccessTokenRequestDTO requestDTO,
             @AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok().body(authService.reissueAccessToken(requestDTO.getRefreshToken(), member));
+        return ResponseEntity.ok().body(authService.reissueAccessToken(requestDTO.refreshToken(), member));
     }
 
     // logout
